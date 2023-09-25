@@ -1,6 +1,6 @@
 {
   "name": "remixapp",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "sideEffects": false,
   "scripts": {
@@ -10,11 +10,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "@elylucas/react-footer": "^0.0.1",
+    "@elylucas/react-header": "^0.0.1",
     "@remix-run/node": "^1.5.1",
     "@remix-run/react": "^1.5.1",
     "@remix-run/serve": "^1.5.1",
-    "@elylucas/react-footer": "^0.0.0",
-    "@elylucas/react-header": "^0.0.0",
     "react": "18.1.0",
     "react-dom": "18.1.0"
   },
