@@ -4,7 +4,7 @@ on:
     types: [opened, synchronize]
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
 
 jobs:
   check:
@@ -23,7 +23,7 @@ jobs:
       - name: 'Setup npm' # Add our registry to npm config
         run: | # Custom action
           npm set @elylucas:registry=https://npm.pkg.github.com/elylucas
-          npm set "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}"
+          npm set "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_GITHUB_TOKEN }}"
       - name: Install dependencies
         run: | # Install and link dependencies
           npm ci
