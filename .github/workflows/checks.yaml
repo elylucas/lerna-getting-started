@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 0 # Checkout all branches and tags
 
       - name: 'Use NodeJS 18' # Setup node using version 18
-        uses: actions/setup-node@v3 # Public action
+        uses: actions/setup-node@v3
         with:
           node-version: '18'
       - name: 'Setup npm' # Add our registry to npm config
