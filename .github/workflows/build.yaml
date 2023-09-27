@@ -1,10 +1,10 @@
 name: Build and Test
 
-on: push
+# on: push
 
-# on:
-# pull_request:
-#   types: [opened, synchronize]
+on:
+  pull_request:
+    types: [opened, synchronize]
 
 env:
   PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
