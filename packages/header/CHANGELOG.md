@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0-beta.0](https://github.com/elylucas/lerna-getting-started/compare/@elylucas/react-header@0.0.2...@elylucas/react-header@0.1.0-beta.0) (2023-09-27)
+
+
+### Features
+
+* do a deploy yo ([#2](https://github.com/elylucas/lerna-getting-started/issues/2)) ([16cf76e](https://github.com/elylucas/lerna-getting-started/commit/16cf76ea1d3bd639e47bed4d94131b611115a31a))
+
+
+
+
+
 ## [0.0.2](https://github.com/elylucas/lerna-getting-started/compare/@elylucas/react-header@0.0.1...@elylucas/react-header@0.0.2) (2023-09-25)
 
 
