@@ -4,6 +4,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present"
+  },
   "devDependencies": {
     "lerna": "^7.3.0"
   },
