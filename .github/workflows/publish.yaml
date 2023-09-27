@@ -41,9 +41,9 @@ jobs:
           git config user.email "${{ github.actor}}@users.noreply.github.com"
 
           if [ ${{ github.base_ref }} = development ]; then
-            npx lerna version --conventional-commits --conventional-prerelease --preid beta --yes --no-private
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} npx lerna version --conventional-commits --conventional-prerelease --preid beta --yes --no-private
           else
-            npx lerna version --conventional-commits --conventional-graduate --yes --no-private --create-release github
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} npx lerna version --conventional-commits --conventional-graduate --yes --no-private --create-release github
           fi
 
           npx lerna publish from-git --yes
