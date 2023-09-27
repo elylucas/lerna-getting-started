@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.3](https://github.com/elylucas/lerna-getting-started/compare/@elylucas/react-footer@0.0.3-beta.0...@elylucas/react-footer@0.0.3) (2023-09-27)
+
+**Note:** Version bump only for package @elylucas/react-footer
+
+
+
+
+
 ## [0.0.3-beta.0](https://github.com/elylucas/lerna-getting-started/compare/@elylucas/react-footer@0.0.2...@elylucas/react-footer@0.0.3-beta.0) (2023-09-27)
 
 
