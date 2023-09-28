@@ -59,4 +59,5 @@ jobs:
       - name: Run CT Tests
         uses: cypress-io/github-action@v5
         with:
+          install: false
           command: npm run test:component  
