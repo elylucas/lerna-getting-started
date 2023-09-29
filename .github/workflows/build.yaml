@@ -28,15 +28,16 @@ jobs:
         id: restore-cypress
         with:
           path: ~/.cache/Cypress
-          key: ${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
+          key: cypress-${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
       - name: Cypress Install
         if: steps.restore-cypress.outputs.cache-hit != 'true'
         run: npx cypress install
       - name: Save Cypress Binary
+        if: steps.restore-cypress.outputs.cache-hit != 'true'
         uses: actions/cache/save@v3
         with:
           path: ~/.cache/Cypress
-          key: ${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
+          key: cypress-${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
       - name: Run Linting
         run: npm run lint
       - name: Build app
@@ -77,7 +78,7 @@ jobs:
         id: restore-cypress
         with:
           path: ~/.cache/Cypress
-          key: ${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
+          key: cypress-${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
       - name: Run CT Tests
         uses: cypress-io/github-action@v5
         with:
