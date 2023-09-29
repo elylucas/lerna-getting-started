@@ -1,30 +1,33 @@
-on:
-  push:
-    branches:
-      - '*'
-      - '!main'
-      - '!development'
-  pull_request:
-    types: [closed]
-    branches:
-      - development
-      - main
-env:
-  PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
+name: 'Run Checks: Lint & Tests'
+
+on: workflow_call
 
 jobs:
-  install-build-check:
-    uses: ./.github/workflows/build.yaml
-    secrets:
-      PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
-  tests:
-    needs: install-build-check
-    uses: ./.github/workflows/test.yaml
-    secrets:
-      PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
-  publish:
-    needs: [install-build-check, tests]
-    if: github.base_ref == 'main' || github.base_ref == 'development'
-    permissions:
-      contents: write
-    uses: ./.github/workflows/publish.yaml
+  # this job relies on the install-build workflow to run first
+  component-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: 'Use NodeJS 18'
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - name: Restore Cypress Binary
+        uses: actions/cache/restore@v3
+        id: restore-cypress
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
+      - name: Install dependencies
+        run: |
+          npm install
+      - name: Download the build folders
+        uses: actions/download-artifact@v3
+        with:
+          name: build-folders
+      - name: Run Linting
+        run: npm run lint
+      - name: Run CT Tests
+        run: npm run test:component

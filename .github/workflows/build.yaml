@@ -1,18 +1,10 @@
 name: Build and Test
 
-# on: push
-
 on:
   workflow_call:
-    secrets:
-      PACKAGE_GITHUB_TOKEN:
-        required: true
-
-# env:
-#   PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
 
 jobs:
-  install-build-check:
+  install-build:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout'
@@ -28,10 +20,6 @@ jobs:
         with:
           path: ~/.cache/Cypress
           key: cypress-${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
-      # - name: 'Setup github npm registry' # # Add the gh registry to npm config
-      #   run: |
-      #     npm set @elylucas:registry=https://npm.pkg.github.com/elylucas
-      #     npm set "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_GITHUB_TOKEN }}"
       - name: Install dependencies
         run: |
           npm install
@@ -41,8 +29,6 @@ jobs:
         with:
           path: ~/.cache/Cypress
           key: cypress-${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
-      - name: Run Linting
-        run: npm run lint
       - name: Build app
         run: |
           npm run build

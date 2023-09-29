@@ -1,13 +1,10 @@
 name: Publish
 
-on: workflow_call
-
-# on:
-#   pull_request:
-#     types: [closed]
-#     branches:
-#       - development
-#       - main
+on:
+  workflow_call:
+    secrets:
+      PACKAGE_GITHUB_TOKEN:
+        required: true
 
 env:
   PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
