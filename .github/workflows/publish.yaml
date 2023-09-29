@@ -24,17 +24,17 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-      - name: 'Setup npm' # Add our registry to npm config
-        run: | # Custom action
-          npm set @elylucas:registry=https://npm.pkg.github.com/elylucas
-          npm set "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_GITHUB_TOKEN }}"
       - name: Install dependencies
         run: |
-          npm install
+          npm ci
       - name: Download the build folders
         uses: actions/download-artifact@v3
         with:
           name: build-folders
+      - name: 'Setup npm' # Add our registry to npm config
+        run: | # Custom action
+          npm set @elylucas:registry=https://npm.pkg.github.com/elylucas
+          npm set "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_GITHUB_TOKEN }}"
       - name: 'Version and publish'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
