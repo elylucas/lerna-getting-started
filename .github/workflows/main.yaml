@@ -11,6 +11,8 @@ on:
     branches:
       - development
       - main
+  workflow_dispatch:
+
 env:
   PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
 
