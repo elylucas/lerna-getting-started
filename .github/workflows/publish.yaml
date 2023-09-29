@@ -32,9 +32,10 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
-      - name: Build app
-        run: |
-          npm run build
+      - name: Download the build folders
+        uses: actions/download-artifact@v3
+        with:
+          name: build-folders
       - name: 'Version and publish' # Interesting step
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -42,7 +43,7 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor}}@users.noreply.github.com"
 
-          if [ ${{ github.base_ref }} = development ]; then
+          if [ ${{ github.ref }} = development ]; then
             npx lerna version --conventional-commits --conventional-prerelease --preid alpha --yes --no-private
           else
             npx lerna version --conventional-commits --conventional-graduate --yes --no-private --create-release github

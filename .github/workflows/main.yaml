@@ -24,7 +24,7 @@ jobs:
     uses: ./.github/workflows/check.yaml
   publish:
     needs: [install-build, check]
-    if: github.base_ref == 'main' || github.base_ref == 'development'
+    if: github.ref == 'main' || github.ref == 'development'
     permissions:
       contents: write
     uses: ./.github/workflows/publish.yaml
