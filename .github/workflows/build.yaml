@@ -2,10 +2,14 @@ name: Build and Test
 
 # on: push
 
-on: workflow_call
+on:
+  workflow_call:
+    secrets:
+      PACKAGE_GITHUB_TOKEN:
+        required: true
 
-env:
-  PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
+# env:
+#   PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
 
 jobs:
   install-build-check:
@@ -50,4 +54,3 @@ jobs:
           path: |
             packages/**/dist
             packages/**/build
-            

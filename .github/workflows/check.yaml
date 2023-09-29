@@ -9,13 +9,21 @@ on:
     branches:
       - development
       - main
+env:
+  PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
 
 jobs:
   install-build-check:
     uses: ./.github/workflows/build.yaml
+    secrets:
+      PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
   tests:
+    needs: install-build-check
     uses: ./.github/workflows/test.yaml
+    secrets:
+      PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
   publish:
+    needs: [install-build-check, tests]
     if: github.base_ref == 'main' || github.base_ref == 'development'
     permissions:
       contents: write

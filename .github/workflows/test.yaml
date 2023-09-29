@@ -1,9 +1,13 @@
 name: Run Tests
 
-on: workflow_call
+on:
+  workflow_call:
+    secrets:
+      PACKAGE_GITHUB_TOKEN:
+        required: true
 
-env:
-  PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
+# env:
+#   PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
 
 jobs:
   component-tests:
