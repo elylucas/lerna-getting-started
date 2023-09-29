@@ -1,0 +1,20 @@
+on:
+  push:
+    branches:
+      - '*'
+      - '!main'
+      - '!development'
+  pull_request:
+    types: [closed]
+    branches:
+      - development
+      - main
+
+jobs:
+  install-build-check:
+    uses: ./.github/workflows/build.yaml
+  tests:
+    uses: ./.github/workflows/test.yaml
+  publish:
+    if: github.base_ref == 'main' || github.base_ref == 'development'
+    uses: ./.github/workflows/publish.yaml
