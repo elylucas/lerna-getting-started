@@ -1,34 +1,42 @@
 name: Build and Test
 
-# on: push
-
 on:
-  pull_request:
-    types: [opened, synchronize]
-
-env:
-  PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
+  workflow_call:
 
 jobs:
-  check:
+  install-build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: 'Checkout' # Download code from the repository
-        uses: actions/checkout@v3 # Public action
-        with:
-          fetch-depth: 0 # Checkout all branches and tags
-      - name: 'Use NodeJS 18' # Setup node using version 18
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+      - name: 'Use NodeJS 18'
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-      - name: 'Setup npm' # Add our registry to npm config
-        run: | # Custom action
-          npm set @elylucas:registry=https://npm.pkg.github.com/elylucas
-          npm set "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_GITHUB_TOKEN }}"
+          cache: 'npm'
+      - name: Restore Cypress Binary
+        uses: actions/cache/restore@v3
+        id: restore-cypress
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
       - name: Install dependencies
         run: |
           npm install
+      - name: Save Cypress Binary
+        if: steps.restore-cypress.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v3
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
       - name: Build app
         run: |
           npm run build
+      - name: Save build folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-folders
+          if-no-files-found: error
+          path: |
+            packages/**/dist
+            packages/**/build

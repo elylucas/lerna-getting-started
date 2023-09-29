@@ -1,11 +1,10 @@
 name: Publish
 
 on:
-  pull_request:
-    types: [closed]
-    branches:
-      - development
-      - main
+  workflow_call:
+    secrets:
+      PACKAGE_GITHUB_TOKEN:
+        required: true
 
 env:
   PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
@@ -37,14 +36,16 @@ jobs:
         run: |
           npm run build
       - name: 'Version and publish' # Interesting step
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor}}@users.noreply.github.com"
 
           if [ ${{ github.base_ref }} = development ]; then
-            GH_TOKEN=${{ secrets.GITHUB_TOKEN }} npx lerna version --conventional-commits --conventional-prerelease --preid beta --yes --no-private
+            npx lerna version --conventional-commits --conventional-prerelease --preid alpha --yes --no-private
           else
-            GH_TOKEN=${{ secrets.GITHUB_TOKEN }} npx lerna version --conventional-commits --conventional-graduate --yes --no-private --create-release github
+            npx lerna version --conventional-commits --conventional-graduate --yes --no-private --create-release github
           fi
 
           npx lerna publish from-git --yes
