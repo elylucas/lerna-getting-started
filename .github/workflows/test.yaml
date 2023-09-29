@@ -21,10 +21,10 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-      - name: 'Setup github npm registry' # Add the gh registry to npm config
-        run: |
-          npm set @elylucas:registry=https://npm.pkg.github.com/elylucas
-          npm set "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_GITHUB_TOKEN }}"
+      # - name: 'Setup github npm registry' # Add the gh registry to npm config
+      #   run: |
+      #     npm set @elylucas:registry=https://npm.pkg.github.com/elylucas
+      #     npm set "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_GITHUB_TOKEN }}"
       - name: Restore Cypress Binary
         uses: actions/cache/restore@v3
         id: restore-cypress
