@@ -36,7 +36,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-folders
-      - name: 'Version and publish' # Interesting step
+      - name: 'Version and publish'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -44,15 +44,24 @@ jobs:
           git config user.email "${{ github.actor}}@users.noreply.github.com"
 
           if [ ${{ github.ref_name }} = development ]; then
-            npx lerna version --conventional-commits --conventional-prerelease --preid alpha --yes --no-private --no-changelog --no-git-tag-version
+            npx lerna publish --conventional-commits --conventional-prerelease --preid dev-$(date +\"%Y%m%dT%H%M%S\") --no-changelog --no-git-tag-version --dist-tag dev --no-push --yes
+          elif [ ${{ github.ref_name }} = next ]; then
+            npx lerna publish --conventional-commits --conventional-prerelease --preid alpha --yes --no-private -dist-tag next
           else
-            npx lerna version --conventional-commits --conventional-graduate --yes --no-private --create-release github
+            npx lerna publish --conventional-commits --conventional-graduate --yes --no-private --create-release github
           fi
 
-          npx lerna publish from-git --yes
+          # merge upstream package version changes to next/dev 
 
           if [ ${{ github.ref_name }} = main ]; then
-            git checkout development
+            git checkout next
             git rebase main
-            git push origin development
+            git push origin
+            git checkout development
+            git rebase next
+            git push origin
+          elif [ ${{ github.ref_name }} = next ]; then
+            git checkout development
+            git rebase next
+            git push origin
           fi
