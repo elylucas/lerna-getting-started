@@ -28,7 +28,7 @@ jobs:
           npm set "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_GITHUB_TOKEN }}"
       - name: Install dependencies
         run: |
-          npm install      
+          npm install
       # - name: Cypress Install
       #   if: steps.restore-cypress.outputs.cache-hit != 'true'
       #   run: npx cypress install
@@ -66,6 +66,12 @@ jobs:
         run: | # Custom action
           npm set @elylucas:registry=https://npm.pkg.github.com/elylucas
           npm set "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_GITHUB_TOKEN }}"
+      - name: Restore Cypress Binary
+        uses: actions/cache/restore@v3
+        id: restore-cypress
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
       - name: Install dependencies
         run: |
           npm install
@@ -73,12 +79,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-folders
-      - name: Restore Cypress Binary
-        uses: actions/cache/restore@v3
-        id: restore-cypress
-        with:
-          path: ~/.cache/Cypress
-          key: cypress-${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
       - name: Run CT Tests
         uses: cypress-io/github-action@v5
         with:
