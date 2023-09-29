@@ -3,7 +3,6 @@ name: Build and Test
 on: push
 
 env:
-  CYPRESS_CACHE_FOLDER: './node_modules/CypressBinary'
   PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
 
 jobs:
@@ -24,8 +23,20 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
+      - name: Restore Cypress Binary
+        uses: actions/cache/restore@v3
+        id: restore-cypress
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
       - name: Cypress Install
+        if: steps.restore-cypress.outputs.cache-hit != 'true'
         run: npx cypress install
+      - name: Save Cypress Binary
+        uses: actions/cache/save@v3
+        with:
+          path: path/to/dependencies
+          key: ${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
       - name: Run Linting
         run: npm run lint
       - name: Build app
@@ -61,6 +72,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-folders
+      - name: Restore Cypress Binary
+        uses: actions/cache/restore@v3
+        id: restore-cypress
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
       - name: Run CT Tests
         uses: cypress-io/github-action@v5
         with:
