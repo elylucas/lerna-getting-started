@@ -3,6 +3,7 @@ name: Build and Test
 on: push
 
 env:
+  CYPRESS_CACHE_FOLDER: './node_modules/CypressBinary'
   PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
 
 jobs:
