@@ -16,19 +16,19 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-      - name: 'Setup github npm registry' # Add our registry to npm config
-        run: | # Custom action
-          npm set @elylucas:registry=https://npm.pkg.github.com/elylucas
-          npm set "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_GITHUB_TOKEN }}"
-      - name: Install dependencies
-        run: |
-          npm install
       - name: Restore Cypress Binary
         uses: actions/cache/restore@v3
         id: restore-cypress
         with:
           path: ~/.cache/Cypress
           key: cypress-${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
+      - name: 'Setup github npm registry' # Add our registry to npm config
+        run: | # Custom action
+          npm set @elylucas:registry=https://npm.pkg.github.com/elylucas
+          npm set "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_GITHUB_TOKEN }}"
+      - name: Install dependencies
+        run: |
+          npm install      
       - name: Cypress Install
         if: steps.restore-cypress.outputs.cache-hit != 'true'
         run: npx cypress install
