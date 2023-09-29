@@ -22,16 +22,13 @@ jobs:
         with:
           path: ~/.cache/Cypress
           key: cypress-${{ runner.os }}-${{ hashFiles('./package-lock.json') }}
-      - name: 'Setup github npm registry' # Add our registry to npm config
-        run: | # Custom action
+      - name: 'Setup github npm registry' # # Add the gh registry to npm config
+        run: |
           npm set @elylucas:registry=https://npm.pkg.github.com/elylucas
           npm set "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_GITHUB_TOKEN }}"
       - name: Install dependencies
         run: |
           npm install
-      # - name: Cypress Install
-      #   if: steps.restore-cypress.outputs.cache-hit != 'true'
-      #   run: npx cypress install
       - name: Save Cypress Binary
         if: steps.restore-cypress.outputs.cache-hit != 'true'
         uses: actions/cache/save@v3
@@ -62,8 +59,8 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-      - name: 'Setup github npm registry' # Add our registry to npm config
-        run: | # Custom action
+      - name: 'Setup github npm registry' # Add the gh registry to npm config
+        run: |
           npm set @elylucas:registry=https://npm.pkg.github.com/elylucas
           npm set "//npm.pkg.github.com/:_authToken=${{ secrets.PACKAGE_GITHUB_TOKEN }}"
       - name: Restore Cypress Binary
@@ -80,7 +77,4 @@ jobs:
         with:
           name: build-folders
       - name: Run CT Tests
-        uses: cypress-io/github-action@v5
-        with:
-          install: false
-          command: npm run test:component
+        run: npm run test:component
