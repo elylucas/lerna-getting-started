@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1-alpha.1](https://github.com/elylucas/lerna-getting-started/compare/@elylucas/react-header@0.1.1-alpha.0...@elylucas/react-header@0.1.1-alpha.1) (2023-09-29)
+
+
+### Bug Fixes
+
+* **header:** fixed that bug ([e17008c](https://github.com/elylucas/lerna-getting-started/commit/e17008c03b52b54a58f143f1cf24cbf915c18dcc))
+
+
+
+
+
 ## [0.1.1-alpha.0](https://github.com/elylucas/lerna-getting-started/compare/@elylucas/react-header@0.1.0-beta.0...@elylucas/react-header@0.1.1-alpha.0) (2023-09-29)
 
 **Note:** Version bump only for package @elylucas/react-header
