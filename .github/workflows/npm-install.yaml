@@ -1,0 +1,12 @@
+name: 'NPM install'
+
+on: workflow_call
+
+jobs:
+  npm-install:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authenticate with private NPM package
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+      - name: Install dependencies
+        run: npm ci
