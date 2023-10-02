@@ -6,10 +6,6 @@ on:
       PACKAGE_GITHUB_TOKEN:
         required: true
 
-env:
-  PACKAGE_GITHUB_TOKEN: ${{ secrets.PACKAGE_GITHUB_TOKEN }}
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 jobs:
   publish:
     runs-on: ubuntu-latest
